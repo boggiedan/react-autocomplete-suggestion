@@ -1,7 +1,7 @@
 {
   "name": "react-autocomplete-suggestion",
   "version": "1.0.0",
-  "description": "React autocomplete component with external sorting based on react-autosuggest",
+  "description": "React autocomplete component providing some default behaviors based on react-autosuggest. ",
   "author": "boggiedan",
   "license": "MIT",
   "repository": "boggiedan/react-autocomplete-suggestion",
