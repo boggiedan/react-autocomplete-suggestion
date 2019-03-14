@@ -55,7 +55,7 @@ class Autocomplete extends Component {
         onBlur={this.onBlur}
         onFocus={this.onFocus}
         isInError
-        helperText="An error occured during the fetch of the countries"
+        helperText="An error occured"
         fetchTimeoutTimer={300}
         theme={{
           suggestionHighlighted: {
