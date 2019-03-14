@@ -40,7 +40,7 @@ import Autocomplete from 'react-autocomplete-suggestion'
 class Autocomplete extends Component {
   render () {
     return (
-      <MyComponent
+      <Autocomplete
         placeholder="Search for a country"
         label="country"
         freeTextEnabled
