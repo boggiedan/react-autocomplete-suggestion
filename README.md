@@ -16,7 +16,7 @@
 
 * A timer of default 200ms is set on fetch of new suggestions to avoid making the request on type of each letter (useful when the filtering of the suggestions is made in the backend)
  
-* In error property can be set to put the input component in red
+* An error property can be set to put the input component in red
 
 * A helper text can be set (useful to display error messages) 
 
