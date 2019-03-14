@@ -78,6 +78,17 @@ class Autocomplete extends Component {
 | label | String | | | Add a label to the input component |
 | value | String | | | Value to be displayed in the input component (useful when an autocomplete has already a value on page load for example) |
 | freeTextEnabled | Bool | | false | Avoid clearing the value of the input component if the user does not select a suggestion otherwise the value will be cleared |
+| ignoreCase | Bool | | true | Specify if the component should not ignore the case during his search for an exact match suggestion |
+| isInError | Bool | | false | Specify if the input component has to be in error, displayed in red |
+| helperText | Bool | | false | Display an helper text for the input component. Combined with isInError the helper text would be in red aswell |
+| fetchTimeoutTimer | Number | | 200 | The timer for the component to wait until calling the onFetchSuggestions function |
+| onSuggestionsClearRequested | Function | | | Function called when the suggestions has to be cleared |
+| onSuggestionSelected | Function | | | Function called when a suggestion has been selected |
+| onChange | Function | | | Function called when a change of value has been triggered |
+| onBlur | Function | | | Function called when an blur event has been triggered |
+| onFocus | Function | | | Function called when a focus event has been triggered |
+| onExactMatchFound | Function | | | Function called on initialization of the props inside the component and when an exact match has been found |
+| suggestions | Array | ✓ | | The suggestions, array of type { key: , value: "string } |
 
 <a name="default-theme"></a>
 ### Default theme
@@ -116,6 +127,26 @@ container: {
   highlight: {
     fontWeight: 'bold'
   }
+```
+
+#### Possible theme properties
+
+```jsx
+  container: {},
+  containerOpen: {},
+  input: {},
+  inputOpen: {},
+  inputFocused: {},
+  suggestionsContainer: {},
+  suggestionsContainerOpen: {},
+  suggestionsList: {},
+  suggestion: {},
+  suggestionFirst: {},
+  suggestionHighlighted: {},
+  suggestionHighlighted: {},
+  sectionContainer: {},
+  sectionContainerFirst: {},
+  sectionTitle: {}
 ```
 
 ## License
