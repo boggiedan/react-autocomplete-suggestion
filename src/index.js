@@ -259,7 +259,7 @@ Autocomplete.propTypes = {
       key: PropTypes.any.isRequired,
       label: PropTypes.string.isRequired
     })
-  )
+  ).isRequired
 }
 
 Autocomplete.defaultProps = {
