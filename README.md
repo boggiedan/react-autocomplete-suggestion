@@ -85,7 +85,7 @@ class Autocomplete extends Component {
 | onSuggestionsClearRequested | Function | | | Function called when the suggestions has to be cleared |
 | onSuggestionSelected | Function | | | Function called when a suggestion has been selected |
 | onChange | Function | | | Function called when a change of value has been triggered |
-| onBlur | Function | | | Function called when an blur event has been triggered |
+| onBlur | Function | | | Function called when a blur event has been triggered |
 | onFocus | Function | | | Function called when a focus event has been triggered |
 | onExactMatchFound | Function | | | Function called on initialization of the props inside the component and when an exact match has been found |
 | suggestions | Array | ✓ | | The suggestions, array of type { key: , value: "string } |
