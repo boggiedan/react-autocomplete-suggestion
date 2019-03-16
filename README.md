@@ -94,7 +94,7 @@ class Autocomplete extends Component {
 ### Default theme
 
 ```jsx
-container: {
+  container: {
     position: 'relative'
   },
 
@@ -147,6 +147,18 @@ container: {
   sectionContainer: {},
   sectionContainerFirst: {},
   sectionTitle: {}
+```
+
+## Development - example project
+
+For easy development you may use the example project:
+
+```bash
+  cd react-autocomple-suggestion && npm start    
+```
+
+```bash
+  cd react-autocomple-suggestion/example && npm start    
 ```
 
 ## License
