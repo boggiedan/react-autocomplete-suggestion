@@ -1,4 +1,4 @@
-import { Paper, Typography, withStyles } from "@material-ui/core";
+import { Button, Paper, Typography, withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import Autocomplete from "react-autocomplete-suggestion";
@@ -76,10 +76,31 @@ const styles = () => (
 
     logsContainer: {
       width: "35%",
-      maxHeight: 780,
-      overflow: "auto",
+      height: 780,
       padding: 10,
       marginLeft: 5
+    },
+
+    logsTitle: {
+      textAlign: "center"
+    },
+
+    logs: {
+      width: "100%",
+      height: 720,
+      maxHeight: 720,
+      overflow: "auto"
+    },
+
+    buttonContainer: {
+      marginTop: 5
+    },
+
+    logsButton: {
+      display: "block",
+      width: "90%",
+      marginLeft: "auto",
+      marginRight: "auto"
     }
   }
 );
@@ -199,6 +220,13 @@ class App extends Component {
         ]
       }
     ));
+  };
+
+  onClearLogsClick = event => {
+    this.setState({
+      logKey: 0,
+      logEntries: ""
+    });
   };
 
   render() {
@@ -328,9 +356,15 @@ class App extends Component {
             </div>
           </Paper>
           <Paper className={classes.logsContainer}>
-            <Typography variant="title">Logs</Typography>
-            {logEntries}
-            <div ref={this.scrollBottom}/>
+            <Typography className={classes.logsTitle} variant="title">Logs</Typography>
+            <div className={classes.logs}>
+              {logEntries}
+              <div ref={this.scrollBottom}/>
+            </div>
+            <div className={classes.buttonContainer}>
+              <Button variant="outlined" className={classes.logsButton} onClick={this.onClearLogsClick}>Clear
+                logs</Button>
+            </div>
           </Paper>
         </div>
       </Fragment>
