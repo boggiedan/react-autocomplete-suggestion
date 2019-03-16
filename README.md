@@ -12,7 +12,7 @@
 
 * The component can keep the entered value even if no suggestion has been selected or clear it if free text functionality is disabled
 
-* The component does not filter the suggestion, it is developer's responsibility to implement the way it has to be filtered
+* The component does not filter the suggestions, it is developer's responsibility to implement the way it has to be filtered
 
 * A timer of default 200ms is set on fetch of new suggestions to avoid making the request on type of each letter (useful when the filtering of the suggestions is made in the backend)
  
