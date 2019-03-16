@@ -188,7 +188,7 @@ class App extends Component {
         logEntries: [
           ...state.logEntries,
           <p key={newLogKey}> > On exact match event called with label: {exactMatchSuggestion.label} and
-            key: {exactMatchSuggestion.key}`</p>
+            key: {exactMatchSuggestion.key}</p>
         ]
       }
     ));
