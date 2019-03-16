@@ -66,6 +66,14 @@ const styles = () => (
       marginRight: 5
     },
 
+    autocomplete: {
+      width: "70%",
+      marginLeft: "auto",
+      marginRight: "auto",
+      marginBottom: 5,
+      textAlign: "center"
+    },
+
     logsContainer: {
       width: "35%",
       maxHeight: 780,
@@ -204,110 +212,120 @@ class App extends Component {
         </div>
         <div className={classes.container}>
           <Paper className={classes.contentContainer}>
-            <Typography variant="title">Autocomplete with custom theme</Typography>
-            <Autocomplete
-              placeholder="Type 'a' or 'b'"
-              label="country"
-              suggestions={suggestions}
-              value={value}
-              onFetchSuggestions={this.fetchItems}
-              onChange={this.onChange}
-              onSuggestionSelected={this.onSuggestionSelected}
-              onExactMatchFound={this.onExactMatchFound}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-              theme={{
-                suggestionHighlighted: {
-                  backgroundColor: "yellow"
-                },
+            <div className={classes.autocomplete}>
+              <Typography variant="title">Autocomplete with custom theme</Typography>
+              <Autocomplete
+                placeholder="Type 'a' or 'b'"
+                label="country"
+                suggestions={suggestions}
+                value={value}
+                onFetchSuggestions={this.fetchItems}
+                onChange={this.onChange}
+                onSuggestionSelected={this.onSuggestionSelected}
+                onExactMatchFound={this.onExactMatchFound}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+                theme={{
+                  suggestionHighlighted: {
+                    backgroundColor: "yellow"
+                  },
 
-                highlight: {
-                  fontWeight: "none",
-                  color: "red"
-                }
-              }}
-            />
-            <Typography variant="title">Autocomplete in error</Typography>
-            <Autocomplete
-              placeholder="Type 'a' or 'b'"
-              label="country"
-              suggestions={suggestions}
-              value={value}
-              onFetchSuggestions={this.fetchItems}
-              onChange={this.onChange}
-              onSuggestionSelected={this.onSuggestionSelected}
-              onExactMatchFound={this.onExactMatchFound}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-              isInError
-              helperText="An error occurred"
-            />
-            <Typography variant="title">Free text disabled and ignore case enabled</Typography>
-            <Typography>The value will be cleared if the user does not select it by click, enter or tab.</Typography>
-            <Typography>An exact match can be found with <b>case insensitive</b> matching.</Typography>
-            <Autocomplete
-              placeholder="Type 'a' or 'b'"
-              label="country"
-              suggestions={suggestions}
-              value={value}
-              onFetchSuggestions={this.fetchItems}
-              onChange={this.onChange}
-              onSuggestionSelected={this.onSuggestionSelected}
-              onExactMatchFound={this.onExactMatchFound}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-            />
-
-            <Typography variant="title">Free text disabled and ignore case disabled</Typography>
-            <Typography>The value will be cleared if the user does not select it by click, enter or tab.</Typography>
-            <Typography>An exact match can be found with <b>case sensitive</b> matching.</Typography>
-            <Autocomplete
-              placeholder="Type 'a' or 'b'"
-              label="country"
-              ignoreCase={false}
-              suggestions={suggestions}
-              value={value}
-              onFetchSuggestions={this.fetchItems}
-              onChange={this.onChange}
-              onSuggestionSelected={this.onSuggestionSelected}
-              onExactMatchFound={this.onExactMatchFound}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-            />
-
-            <Typography variant="title">Free text enabled and ignore case enabled</Typography>
-            <Typography>The value won't be cleared if the user does not select it by click, enter or tab.</Typography>
-            <Typography>An exact match can be found with <b>case insensitive</b> matching.</Typography>
-            <Autocomplete
-              placeholder="Type 'a' or 'b'"
-              label="country"
-              freeTextEnabled
-              suggestions={suggestions}
-              value={value}
-              onFetchSuggestions={this.fetchItems}
-              onChange={this.onChange}
-              onSuggestionSelected={this.onSuggestionSelected}
-              onExactMatchFound={this.onExactMatchFound}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-            />
-            <Typography variant="title">Free text enabled and ignore case disabled</Typography>
-            <Typography>The value won't be cleared if the user does not select it by click, enter or tab.</Typography>
-            <Typography>An exact match can be found with <b>case sensitive</b> matching.</Typography>
-            <Autocomplete
-              placeholder="Type 'a' or 'b'"
-              label="country"
-              freeTextEnabled
-              ignoreCase={false}
-              suggestions={suggestions}
-              value={value}
-              onFetchSuggestions={this.fetchItems}
-              onChange={this.onChange}
-              onSuggestionSelected={this.onSuggestionSelected}
-              onExactMatchFound={this.onExactMatchFound}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-            />
+                  highlight: {
+                    fontWeight: "none",
+                    color: "red"
+                  }
+                }}
+              />
+            </div>
+            <div className={classes.autocomplete}>
+              <Typography variant="title">Autocomplete in error</Typography>
+              <Autocomplete
+                placeholder="Type 'a' or 'b'"
+                label="country"
+                suggestions={suggestions}
+                value={value}
+                onFetchSuggestions={this.fetchItems}
+                onChange={this.onChange}
+                onSuggestionSelected={this.onSuggestionSelected}
+                onExactMatchFound={this.onExactMatchFound}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+                isInError
+                helperText="An error occurred"
+              />
+            </div>
+            <div className={classes.autocomplete}>
+              <Typography variant="title">Free text disabled and ignore case enabled</Typography>
+              <Typography>The value will be cleared if the user does not select it by click, enter or tab.</Typography>
+              <Typography>An exact match can be found with <b>case insensitive</b> matching.</Typography>
+              <Autocomplete
+                placeholder="Type 'a' or 'b'"
+                label="country"
+                suggestions={suggestions}
+                value={value}
+                onFetchSuggestions={this.fetchItems}
+                onChange={this.onChange}
+                onSuggestionSelected={this.onSuggestionSelected}
+                onExactMatchFound={this.onExactMatchFound}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+              />
+            </div>
+            <div className={classes.autocomplete}>
+              <Typography variant="title">Free text disabled and ignore case disabled</Typography>
+              <Typography>The value will be cleared if the user does not select it by click, enter or tab.</Typography>
+              <Typography>An exact match can be found with <b>case sensitive</b> matching.</Typography>
+              <Autocomplete
+                placeholder="Type 'a' or 'b'"
+                label="country"
+                ignoreCase={false}
+                suggestions={suggestions}
+                value={value}
+                onFetchSuggestions={this.fetchItems}
+                onChange={this.onChange}
+                onSuggestionSelected={this.onSuggestionSelected}
+                onExactMatchFound={this.onExactMatchFound}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+              />
+            </div>
+            <div className={classes.autocomplete}>
+              <Typography variant="title">Free text enabled and ignore case enabled</Typography>
+              <Typography>The value won't be cleared if the user does not select it by click, enter or tab.</Typography>
+              <Typography>An exact match can be found with <b>case insensitive</b> matching.</Typography>
+              <Autocomplete
+                placeholder="Type 'a' or 'b'"
+                label="country"
+                freeTextEnabled
+                suggestions={suggestions}
+                value={value}
+                onFetchSuggestions={this.fetchItems}
+                onChange={this.onChange}
+                onSuggestionSelected={this.onSuggestionSelected}
+                onExactMatchFound={this.onExactMatchFound}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+              />
+            </div>
+            <div className={classes.autocomplete}>
+              <Typography variant="title">Free text enabled and ignore case disabled</Typography>
+              <Typography>The value won't be cleared if the user does not select it by click, enter or tab.</Typography>
+              <Typography>An exact match can be found with <b>case sensitive</b> matching.</Typography>
+              <Autocomplete
+                placeholder="Type 'a' or 'b'"
+                label="country"
+                freeTextEnabled
+                ignoreCase={false}
+                suggestions={suggestions}
+                value={value}
+                onFetchSuggestions={this.fetchItems}
+                onChange={this.onChange}
+                onSuggestionSelected={this.onSuggestionSelected}
+                onExactMatchFound={this.onExactMatchFound}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+              />
+            </div>
           </Paper>
           <Paper className={classes.logsContainer}>
             <Typography variant="title">Logs</Typography>
