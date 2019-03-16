@@ -5,8 +5,6 @@ export const defaultTheme = {
 
   suggestionsContainerOpen: {
     position: "absolute",
-    maxHeight: 300,
-    overflow: "auto",
     zIndex: 1,
     left: 0,
     right: 0
