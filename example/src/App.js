@@ -1,4 +1,14 @@
-import { Button, Paper, Typography, withStyles } from "@material-ui/core";
+import {
+  Button,
+  Chip,
+  FormControl,
+  Input,
+  InputLabel,
+  Paper,
+  Typography,
+  withStyles,
+  TextField
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import Autocomplete from "react-autocomplete-suggestion";
@@ -40,70 +50,73 @@ const initialSuggestions = [
   { key: 34, label: "Brunei Darussalam" }
 ];
 
-const styles = () => (
-  {
-    header: {
-      height: "auto",
-      textAlign: "center",
-      backgroundColor: "#37C0C8",
-      padding: 20,
-      marginBottom: 20
-    },
+const styles = () => ({
+  header: {
+    height: "auto",
+    textAlign: "center",
+    backgroundColor: "#37C0C8",
+    padding: 20,
+    marginBottom: 20
+  },
 
-    headerText: {
-      color: "#FFFFFF"
-    },
+  headerText: {
+    color: "#FFFFFF"
+  },
 
-    container: {
-      display: "flex",
-      padding: 10
-    },
+  container: {
+    display: "flex",
+    padding: 10
+  },
 
-    contentContainer: {
-      width: "65%",
-      height: 780,
-      padding: 10,
-      marginRight: 5
-    },
+  contentContainer: {
+    width: "65%",
+    height: 780,
+    padding: 10,
+    marginRight: 5
+  },
 
-    autocomplete: {
-      width: "70%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      marginBottom: 5,
-      textAlign: "center"
-    },
+  autocomplete: {
+    width: "70%",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 5,
+    textAlign: "center"
+  },
 
-    logsContainer: {
-      width: "35%",
-      height: 780,
-      padding: 10,
-      marginLeft: 5
-    },
+  logsContainer: {
+    width: "35%",
+    height: 780,
+    padding: 10,
+    marginLeft: 5
+  },
 
-    logsTitle: {
-      textAlign: "center"
-    },
+  logsTitle: {
+    textAlign: "center"
+  },
 
-    logs: {
-      width: "100%",
-      height: 720,
-      maxHeight: 720,
-      overflow: "auto"
-    },
+  logs: {
+    width: "100%",
+    height: 720,
+    maxHeight: 720,
+    overflow: "auto"
+  },
 
-    buttonContainer: {
-      marginTop: 5
-    },
+  buttonContainer: {
+    marginTop: 5
+  },
 
-    logsButton: {
-      display: "block",
-      width: "90%",
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
+  logsButton: {
+    display: "block",
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+
+  inputContainer: {
+    position: "relative",
+    width: "100%"
   }
-);
+});
 
 class App extends Component {
   constructor(props) {
@@ -135,91 +148,95 @@ class App extends Component {
     const inputLength = inputValue.length;
     const newLogKey = this.state.logKey + 1;
 
-    this.setState(state => (
-      {
-        suggestions: inputLength === 0 ? [] : initialSuggestions.filter(
-          country => country.label.toLowerCase().slice(0, inputLength) === inputValue
-        ),
-        logKey: newLogKey,
-        logEntries: [
-          ...state.logEntries,
-          <p key={newLogKey}> > On fetch suggestions event called with value: {value}</p>
-        ]
-      }
-    ));
+    this.setState(state => ({
+      suggestions:
+        inputLength === 0
+          ? []
+          : initialSuggestions.filter(
+              country =>
+                country.label.toLowerCase().slice(0, inputLength) === inputValue
+            ),
+      logKey: newLogKey,
+      logEntries: [
+        ...state.logEntries,
+        <p key={newLogKey}>
+          > On fetch suggestions event called with value: {value}
+        </p>
+      ]
+    }));
   };
 
   onChange = (event, value) => {
     const newLogKey = this.state.logKey + 1;
 
-    this.setState(state => (
-      {
-        value: value,
-        logKey: newLogKey,
-        logEntries: [
-          ...state.logEntries,
-          <p key={newLogKey}> > On change event called with value: {value}</p>
-        ]
-      }
-    ));
+    this.setState(state => ({
+      value: value,
+      logKey: newLogKey,
+      logEntries: [
+        ...state.logEntries,
+        <p key={newLogKey}> > On change event called with value: {value}</p>
+      ]
+    }));
   };
 
   onSuggestionSelected = suggestion => {
     const newLogKey = this.state.logKey + 1;
 
-    this.setState(state => (
-      {
-        logKey: newLogKey,
-        logEntries: [
-          ...state.logEntries,
-          <p key={newLogKey}> > On suggestion selected event called with label: {suggestion.label} and
-            key: {suggestion.key}</p>
-        ]
-      }
-    ));
+    this.setState(state => ({
+      logKey: newLogKey,
+      logEntries: [
+        ...state.logEntries,
+        <p key={newLogKey}>
+          {" "}
+          > On suggestion selected event called with label: {
+            suggestion.label
+          }{" "}
+          and key: {suggestion.key}
+        </p>
+      ]
+    }));
   };
 
   onExactMatchFound = exactMatchSuggestion => {
     const newLogKey = this.state.logKey + 1;
 
-    this.setState(state => (
-      {
-        logKey: newLogKey,
-        logEntries: [
-          ...state.logEntries,
-          <p key={newLogKey}> > On exact match event called with label: {exactMatchSuggestion.label} and
-            key: {exactMatchSuggestion.key}</p>
-        ]
-      }
-    ));
+    this.setState(state => ({
+      logKey: newLogKey,
+      logEntries: [
+        ...state.logEntries,
+        <p key={newLogKey}>
+          {" "}
+          > On exact match event called with label: {
+            exactMatchSuggestion.label
+          }{" "}
+          and key: {exactMatchSuggestion.key}
+        </p>
+      ]
+    }));
   };
 
   onBlur = event => {
     const newLogKey = this.state.logKey + 1;
 
-    this.setState(state => (
-      {
-        logKey: newLogKey,
-        logEntries: [
-          ...state.logEntries,
-          <p key={newLogKey}> > On blur event called</p>
-        ]
-      }
-    ));
+    this.setState(state => ({
+      logKey: newLogKey,
+      logEntries: [
+        ...state.logEntries,
+        <p key={newLogKey}> > On blur event called</p>
+      ]
+    }));
   };
 
   onFocus = event => {
     const newLogKey = this.state.logKey + 1;
 
-    this.setState(state => (
-      {
-        logKey: newLogKey,
-        logEntries: [
-          ...state.logEntries,
-          <p key={newLogKey}> > On focus event called</p>
-        ]
-      }
-    ));
+    this.setState(state => ({
+      logKey: newLogKey,
+      logEntries: [
+        ...state.logEntries,
+        <p key={newLogKey}> > On focus event called</p>
+      ]
+    }));
   };
 
   onClearLogsClick = event => {
@@ -236,12 +253,35 @@ class App extends Component {
     return (
       <Fragment>
         <div className={classes.header}>
-          <Typography className={classes.headerText} variant="h1">react-autocomplete-suggestion example</Typography>
+          <Typography className={classes.headerText} variant="h1">
+            react-autocomplete-suggestion example
+          </Typography>
         </div>
         <div className={classes.container}>
           <Paper className={classes.contentContainer}>
             <div className={classes.autocomplete}>
-              <Typography variant="title">Autocomplete with custom theme</Typography>
+              <Typography variant="title">
+                Autocomplete with multi selecttion
+              </Typography>
+              <Autocomplete
+                placeholder="Type 'a' or 'b'"
+                label="country"
+                suggestions={suggestions}
+                value={value}
+                onFetchSuggestions={this.fetchItems}
+                onChange={this.onChange}
+                onSuggestionSelected={this.onSuggestionSelected}
+                onExactMatchFound={this.onExactMatchFound}
+                onBlur={this.onBlur}
+                onFocus={this.onFocus}
+                multiSelect
+              />
+            </div>
+
+            <div className={classes.autocomplete}>
+              <Typography variant="title">
+                Autocomplete with custom theme
+              </Typography>
               <Autocomplete
                 placeholder="Type 'a' or 'b'"
                 label="country"
@@ -283,9 +323,17 @@ class App extends Component {
               />
             </div>
             <div className={classes.autocomplete}>
-              <Typography variant="title">Free text disabled and ignore case enabled</Typography>
-              <Typography>The value will be cleared if the user does not select it by click, enter or tab.</Typography>
-              <Typography>An exact match can be found with <b>case insensitive</b> matching.</Typography>
+              <Typography variant="title">
+                Free text disabled and ignore case enabled
+              </Typography>
+              <Typography>
+                The value will be cleared if the user does not select it by
+                click, enter or tab.
+              </Typography>
+              <Typography>
+                An exact match can be found with <b>case insensitive</b>{" "}
+                matching.
+              </Typography>
               <Autocomplete
                 placeholder="Type 'a' or 'b'"
                 label="country"
@@ -300,9 +348,16 @@ class App extends Component {
               />
             </div>
             <div className={classes.autocomplete}>
-              <Typography variant="title">Free text disabled and ignore case disabled</Typography>
-              <Typography>The value will be cleared if the user does not select it by click, enter or tab.</Typography>
-              <Typography>An exact match can be found with <b>case sensitive</b> matching.</Typography>
+              <Typography variant="title">
+                Free text disabled and ignore case disabled
+              </Typography>
+              <Typography>
+                The value will be cleared if the user does not select it by
+                click, enter or tab.
+              </Typography>
+              <Typography>
+                An exact match can be found with <b>case sensitive</b> matching.
+              </Typography>
               <Autocomplete
                 placeholder="Type 'a' or 'b'"
                 label="country"
@@ -318,9 +373,17 @@ class App extends Component {
               />
             </div>
             <div className={classes.autocomplete}>
-              <Typography variant="title">Free text enabled and ignore case enabled</Typography>
-              <Typography>The value won't be cleared if the user does not select it by click, enter or tab.</Typography>
-              <Typography>An exact match can be found with <b>case insensitive</b> matching.</Typography>
+              <Typography variant="title">
+                Free text enabled and ignore case enabled
+              </Typography>
+              <Typography>
+                The value won't be cleared if the user does not select it by
+                click, enter or tab.
+              </Typography>
+              <Typography>
+                An exact match can be found with <b>case insensitive</b>{" "}
+                matching.
+              </Typography>
               <Autocomplete
                 placeholder="Type 'a' or 'b'"
                 label="country"
@@ -336,9 +399,16 @@ class App extends Component {
               />
             </div>
             <div className={classes.autocomplete}>
-              <Typography variant="title">Free text enabled and ignore case disabled</Typography>
-              <Typography>The value won't be cleared if the user does not select it by click, enter or tab.</Typography>
-              <Typography>An exact match can be found with <b>case sensitive</b> matching.</Typography>
+              <Typography variant="title">
+                Free text enabled and ignore case disabled
+              </Typography>
+              <Typography>
+                The value won't be cleared if the user does not select it by
+                click, enter or tab.
+              </Typography>
+              <Typography>
+                An exact match can be found with <b>case sensitive</b> matching.
+              </Typography>
               <Autocomplete
                 placeholder="Type 'a' or 'b'"
                 label="country"
@@ -356,14 +426,21 @@ class App extends Component {
             </div>
           </Paper>
           <Paper className={classes.logsContainer}>
-            <Typography className={classes.logsTitle} variant="title">Logs</Typography>
+            <Typography className={classes.logsTitle} variant="title">
+              Logs
+            </Typography>
             <div className={classes.logs}>
               {logEntries}
-              <div ref={this.scrollBottom}/>
+              <div ref={this.scrollBottom} />
             </div>
             <div className={classes.buttonContainer}>
-              <Button variant="outlined" className={classes.logsButton} onClick={this.onClearLogsClick}>Clear
-                logs</Button>
+              <Button
+                variant="outlined"
+                className={classes.logsButton}
+                onClick={this.onClearLogsClick}
+              >
+                Clear logs
+              </Button>
             </div>
           </Paper>
         </div>
