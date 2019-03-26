@@ -82,6 +82,14 @@ const styles = theme => ({
     "&:focus-within:after": {
       transform: "scaleX(1)"
     }
+  },
+
+  chip: {
+    marginTop: 30
+  },
+
+  multiSelectInput: {
+    marginLeft: 5
   }
 });
 
@@ -200,7 +208,7 @@ class Autocomplete extends Component {
     const newSelectedSuggestions =
       !allowDuplicateSelection &&
       this.containsSuggestion(selectedSuggestions, suggestion)
-        ? [...selectedSuggestions]
+        ? selectedSuggestions
         : [...selectedSuggestions, suggestion];
 
     this.setState({
@@ -272,10 +280,21 @@ class Autocomplete extends Component {
     onFocus && onFocus(event);
   };
 
-  onChipDelete = event => {
+  onChipDelete = label => event => {
+    const { onSuggestionDeleted, ignoreCase } = this.props;
     const { selectedSuggestions } = this.state;
+    const deletedSuggestion = Autocomplete.getExactMatchSuggestion(
+      selectedSuggestions,
+      label,
+      ignoreCase
+    );
+    const newSelectedSuggestions = selectedSuggestions.filter(
+      s => s.label !== label
+    );
 
-    console.log(event.target.value);
+    this.setState({ selectedSuggestions: newSelectedSuggestions });
+    onSuggestionDeleted &&
+      onSuggestionDeleted(deletedSuggestion, newSelectedSuggestions);
   };
 
   renderHighlights = (part, index) => {
@@ -306,31 +325,39 @@ class Autocomplete extends Component {
   };
 
   renderChips = (selectedSuggestion, index) => {
-    const { label, key } = selectedSuggestion;
-    const { allowDuplicateSelection } = this.props;
+    const { classes } = this.props;
+    const { label } = selectedSuggestion;
 
     return (
       <Chip
-        key={allowDuplicateSelection ? index : key}
+        className={classes.chip}
+        key={index}
         label={label}
-        onDelete={this.onChipDelete}
+        onDelete={this.onChipDelete(label)}
       />
     );
   };
 
   renderMultiSelectInputComponent = (inputProps, selectedSuggestions) => {
+    // TODO the helperText should be displayed below the chip-input container
     const { classes } = this.props;
 
     return (
       <div className={classes.chipInputContainer}>
         {selectedSuggestions.map(this.renderChips)}
-        <TextField InputProps={{ disableUnderline: true }} {...inputProps} />
+        <TextField
+          className={classes.multiSelectInput}
+          InputProps={{ disableUnderline: true }}
+          {...inputProps}
+        />
       </div>
     );
   };
 
   renderSingleSelectInputComponent = inputProps => {
-    return <TextField {...inputProps} />;
+    const { helperText } = this.props;
+
+    return <TextField helperText={helperText} {...inputProps} />;
   };
 
   renderInputComponent = inputProps => {
@@ -354,7 +381,6 @@ class Autocomplete extends Component {
       value,
       error: props.isInError,
       fullWidth: true,
-      helperText: props.helperText,
       margin: "normal",
       onChange: this.onChange,
       onBlur: this.onBlur,
@@ -416,6 +442,8 @@ Autocomplete.propTypes = {
   onSuggestionsClearRequested: PropTypes.func,
 
   onSuggestionSelected: PropTypes.func,
+
+  onSuggestionDeleted: PropTypes.func,
 
   onChange: PropTypes.func,
 

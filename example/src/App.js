@@ -179,8 +179,10 @@ class App extends Component {
     }));
   };
 
-  onSuggestionSelected = suggestion => {
+  onSuggestionSelected = (suggestion, suggestions) => {
     const newLogKey = this.state.logKey + 1;
+
+    console.log(suggestions);
 
     this.setState(state => ({
       logKey: newLogKey,
@@ -192,6 +194,25 @@ class App extends Component {
             suggestion.label
           }{" "}
           and key: {suggestion.key}
+        </p>
+      ]
+    }));
+  };
+
+  onSuggestionDeleted = (deletedSuggestion, suggestions) => {
+    const newLogKey = this.state.logKey + 1;
+
+    console.log(deletedSuggestion);
+    console.log(suggestions);
+
+    this.setState(state => ({
+      logKey: newLogKey,
+      logEntries: [
+        ...state.logEntries,
+        <p key={newLogKey}>
+          {" "}
+          > On suggestion deleted event event called with updated array of
+          suggestions
         </p>
       ]
     }));
@@ -271,6 +292,7 @@ class App extends Component {
                 onFetchSuggestions={this.fetchItems}
                 onChange={this.onChange}
                 onSuggestionSelected={this.onSuggestionSelected}
+                onSuggestionDeleted={this.onSuggestionDeleted}
                 onExactMatchFound={this.onExactMatchFound}
                 onBlur={this.onBlur}
                 onFocus={this.onFocus}
