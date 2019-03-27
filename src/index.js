@@ -51,6 +51,7 @@ const styles = theme => ({
   chipInputContainer: {
     position: "relative",
     display: "inline-flex",
+    flexFlow: "row wrap",
     width: "100%",
     minHeight: 40,
     cursor: "text",
@@ -85,10 +86,15 @@ const styles = theme => ({
   },
 
   chip: {
-    marginTop: 30
+    marginTop: "auto",
+    marginBottom: "auto"
   },
 
   multiSelectInput: {
+    flexGrow: 1,
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
     marginLeft: 5
   }
 });
@@ -357,7 +363,7 @@ class Autocomplete extends Component {
   renderSingleSelectInputComponent = inputProps => {
     const { helperText } = this.props;
 
-    return <TextField helperText={helperText} {...inputProps} />;
+    return <TextField fullWidth helperText={helperText} {...inputProps} />;
   };
 
   renderInputComponent = inputProps => {
@@ -380,8 +386,6 @@ class Autocomplete extends Component {
       label: props.label,
       value,
       error: props.isInError,
-      fullWidth: true,
-      margin: "normal",
       onChange: this.onChange,
       onBlur: this.onBlur,
       onFocus: this.onFocus,
