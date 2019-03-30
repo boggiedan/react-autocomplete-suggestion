@@ -327,7 +327,6 @@ class Autocomplete extends Component {
 
   onSuggestionSelected = (event, { suggestion }) => {
     const { multiSelect, onSuggestionSelected } = this.props;
-    const { lastPressedKey } = this.state;
 
     multiSelect
       ? this.onMultiSelectSuggestionSelected(suggestion, onSuggestionSelected)
