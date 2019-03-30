@@ -1,10 +1,12 @@
 import {
   withStyles,
+  createStyles,
   Paper,
   TextField,
   Typography,
   Chip
 } from "@material-ui/core";
+import classNames from "classnames";
 import AutosuggestHighlightMatch from "autosuggest-highlight/match";
 import AutosuggestHighlightParse from "autosuggest-highlight/parse";
 import PropTypes from "prop-types";
@@ -14,7 +16,7 @@ import { validKeys, TAB } from "./contants";
 
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
-const styles = theme => ({
+const styles = createStyles({
   container: {
     position: "relative"
   },
@@ -46,6 +48,10 @@ const styles = theme => ({
 
   highlight: {
     fontWeight: "bold"
+  },
+
+  inputContainer: {
+    textAlign: "left"
   },
 
   chipInputContainer: {
@@ -85,17 +91,52 @@ const styles = theme => ({
     }
   },
 
-  chip: {
+  errorChipInputContainer: {
+    "&:before": {
+      content: '""',
+      height: 1,
+      backgroundColor: "#f44336"
+    },
+
+    "&:after": {
+      content: '""',
+      height: 2,
+      backgroundColor: "#f44336",
+      transform: "scaleX(0)",
+      transition: "transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms"
+    }
+  },
+
+  chipContainer: {
     marginTop: "auto",
     marginBottom: "auto"
   },
 
-  multiSelectInput: {
+  chip: {
+    marginTop: 2,
+    marginBottom: 2,
+    marginRight: 2
+  },
+
+  input: {
     flexGrow: 1,
+    // FIXME Necessary if no label is passed
+    // marginTop: 16,
     textOverflow: "ellipsis",
     overflow: "hidden",
-    whiteSpace: "nowrap",
-    marginLeft: 5
+    whiteSpace: "nowrap"
+  },
+
+  helperText: {
+    minHeight: "1em",
+    marginTop: 8,
+    lineHeight: "1em",
+    fontSize: "0.75rem",
+    color: "rgba(0, 0, 0, 0.54)"
+  },
+
+  errorMessage: {
+    color: "#f44336"
   }
 });
 
@@ -113,29 +154,43 @@ class Autocomplete extends Component {
       exactMatchSuggestion: null,
       lastPressedKey: null
     };
+
+    this.input = React.createRef();
   }
 
-  static getDerivedStateFromProps(props, state) {
-    const { onExactMatchFound, suggestions, ignoreCase } = props;
-    const { exactMatchSuggestion, value } = state;
-    const newExactMatchSuggestion = Autocomplete.getExactMatchSuggestion(
-      suggestions,
-      value,
-      ignoreCase
-    );
+  static getDerivedStateFromProps(nextProps, prevState) {
+    let result = { ...prevState };
 
-    if (
-      newExactMatchSuggestion &&
-      exactMatchSuggestion !== newExactMatchSuggestion
-    ) {
-      onExactMatchFound && onExactMatchFound(newExactMatchSuggestion);
+    if (nextProps.onExactMatchFound) {
+      const { onExactMatchFound, suggestions, ignoreCase } = nextProps;
+      const { exactMatchSuggestion, value } = prevState;
+      const newExactMatchSuggestion = Autocomplete.getExactMatchSuggestion(
+        suggestions,
+        value,
+        ignoreCase
+      );
 
-      return {
-        exactMatchSuggestion: newExactMatchSuggestion
+      if (
+        newExactMatchSuggestion &&
+        exactMatchSuggestion !== newExactMatchSuggestion
+      ) {
+        result = {
+          ...result,
+          exactMatchSuggestion: newExactMatchSuggestion
+        };
+
+        onExactMatchFound && onExactMatchFound(newExactMatchSuggestion);
+      }
+    }
+
+    if (nextProps.errorMessage) {
+      result = {
+        ...result,
+        isInError: true
       };
     }
 
-    return null;
+    return result;
   }
 
   static formatValue(value, ignoreCase) {
@@ -186,7 +241,41 @@ class Autocomplete extends Component {
     return !freeTextEnabled && !this.isValidPressedKey(lastPressedKey);
   };
 
+  shouldFocusOnInput = () => {
+    const { lastPressedKey } = this.state;
+
+    return lastPressedKey !== TAB;
+  };
+
   getSuggestionValue = suggestion => suggestion.label;
+
+  focusOnInput = () => {
+    this.input.current.focus();
+  };
+
+  constructInputMessage = classes => {
+    const { helperText, errorMessage } = this.props;
+    const { isInError } = this.state;
+
+    return isInError
+      ? {
+          classNames: {
+            container: classNames(
+              classes.chipInputContainer,
+              classes.errorChipInputContainer
+            ),
+            message: classNames(classes.helperText, classes.errorMessage)
+          },
+          message: errorMessage
+        }
+      : {
+          classNames: {
+            container: classes.chipInputContainer,
+            message: classes.helperText
+          },
+          message: helperText
+        };
+  };
 
   onSuggestionsFetchRequested = ({ value }) => {
     const { onFetchSuggestions, fetchTimeoutTimer } = this.props;
@@ -238,10 +327,12 @@ class Autocomplete extends Component {
 
   onSuggestionSelected = (event, { suggestion }) => {
     const { multiSelect, onSuggestionSelected } = this.props;
+    const { lastPressedKey } = this.state;
 
     multiSelect
       ? this.onMultiSelectSuggestionSelected(suggestion, onSuggestionSelected)
       : this.onSingleSelectSuggestionSelected(suggestion, onSuggestionSelected);
+    this.shouldFocusOnInput() && this.focusOnInput();
   };
 
   onChange = (event, { newValue }) => {
@@ -284,6 +375,10 @@ class Autocomplete extends Component {
     const { onFocus } = this.props;
 
     onFocus && onFocus(event);
+  };
+
+  onInputContainerFocus = event => {
+    this.focusOnInput();
   };
 
   onChipDelete = label => event => {
@@ -335,57 +430,52 @@ class Autocomplete extends Component {
     const { label } = selectedSuggestion;
 
     return (
-      <Chip
-        className={classes.chip}
-        key={index}
-        label={label}
-        onDelete={this.onChipDelete(label)}
-      />
-    );
-  };
-
-  renderMultiSelectInputComponent = (inputProps, selectedSuggestions) => {
-    // TODO the helperText should be displayed below the chip-input container
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.chipInputContainer}>
-        {selectedSuggestions.map(this.renderChips)}
-        <TextField
-          className={classes.multiSelectInput}
-          InputProps={{ disableUnderline: true }}
-          {...inputProps}
+      <div className={classes.chipContainer}>
+        <Chip
+          className={classes.chip}
+          key={index}
+          label={label}
+          onDelete={this.onChipDelete(label)}
         />
       </div>
     );
   };
 
-  renderSingleSelectInputComponent = inputProps => {
-    const { helperText } = this.props;
-
-    return <TextField fullWidth helperText={helperText} {...inputProps} />;
-  };
-
   renderInputComponent = inputProps => {
-    const { multiSelect } = this.props;
+    const { classes, multiSelect } = this.props;
+    const { selectedSuggestions } = this.state;
+    const inputMessage = this.constructInputMessage(classes);
 
-    return multiSelect
-      ? this.renderMultiSelectInputComponent(
-          inputProps,
-          this.state.selectedSuggestions
-        )
-      : this.renderSingleSelectInputComponent(inputProps);
+    return (
+      <div className={classes.inputContainer}>
+        <div
+          className={inputMessage.classNames.container}
+          onFocus={this.onInputContainerFocus}
+        >
+          {multiSelect && selectedSuggestions.map(this.renderChips)}
+          <TextField
+            inputRef={this.input}
+            className={classes.input}
+            InputProps={{ disableUnderline: true }}
+            {...inputProps}
+          />
+        </div>
+        <span className={inputMessage.classNames.message}>
+          {inputMessage.message}
+        </span>
+      </div>
+    );
   };
 
   render() {
     const props = this.props;
-    const { value } = this.state;
+    const { value, isInError } = this.state;
 
     const inputProps = {
       placeholder: props.placeholder,
       label: props.label,
       value,
-      error: props.isInError,
+      error: isInError,
       onChange: this.onChange,
       onBlur: this.onBlur,
       onFocus: this.onFocus,
@@ -435,9 +525,9 @@ Autocomplete.propTypes = {
 
   allowDuplicateSelection: PropTypes.bool,
 
-  isInError: PropTypes.bool,
-
   helperText: PropTypes.string,
+
+  errorMessage: PropTypes.string,
 
   fetchTimeoutTimer: PropTypes.number,
 
@@ -476,9 +566,9 @@ Autocomplete.defaultProps = {
 
   allowDuplicateSelection: false,
 
-  isInError: false,
-
   helperText: "",
+
+  errorMessage: "",
 
   fetchTimeoutTimer: 200
 };

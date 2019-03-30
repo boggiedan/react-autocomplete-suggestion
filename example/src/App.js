@@ -297,6 +297,8 @@ class App extends Component {
                 onBlur={this.onBlur}
                 onFocus={this.onFocus}
                 multiSelect
+                errorMessage="A very very very very very very very very very very very very long error message"
+                helperText="This might help you"
               />
             </div>
 
@@ -340,8 +342,7 @@ class App extends Component {
                 onExactMatchFound={this.onExactMatchFound}
                 onBlur={this.onBlur}
                 onFocus={this.onFocus}
-                isInError
-                helperText="An error occurred"
+                helperText="Helper text"
               />
             </div>
             <div className={classes.autocomplete}>
