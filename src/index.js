@@ -172,6 +172,7 @@ class Autocomplete extends Component {
 
       if (
         newExactMatchSuggestion &&
+        exactMatchSuggestion &&
         exactMatchSuggestion.key !== newExactMatchSuggestion.key
       ) {
         result = {
