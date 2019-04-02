@@ -1,14 +1,4 @@
-import {
-  Button,
-  Chip,
-  FormControl,
-  Input,
-  InputLabel,
-  Paper,
-  Typography,
-  withStyles,
-  TextField
-} from "@material-ui/core";
+import { Button, Paper, Typography, withStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { Component, Fragment } from "react";
 import Autocomplete from "react-autocomplete-suggestion";
@@ -126,7 +116,14 @@ class App extends Component {
       suggestions: [],
       value: "",
       logKey: 0,
-      logEntries: ""
+      logEntries: "",
+      selectedSuggestions: [
+        { key: 0, label: "Afghanistan" },
+        { key: 2, label: "Aland Islands" },
+        { key: 3, label: "Albania" },
+        { key: 4, label: "Algeria" },
+        { key: 5, label: "American Samoa" }
+      ]
     };
     this.scrollBottom = React.createRef();
   }
@@ -297,8 +294,10 @@ class App extends Component {
                 onBlur={this.onBlur}
                 onFocus={this.onFocus}
                 multiSelect
-                errorMessage="A very very very very very very very very very very very very long error message"
+                // errorMessage="An error occured"
                 helperText="This might help you"
+                // allowDuplicateSelection
+                // isRequired
               />
             </div>
 

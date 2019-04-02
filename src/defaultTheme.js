@@ -32,9 +32,14 @@ export const defaultTheme = {
     fontWeight: "bold"
   },
 
+  inputContainer: {
+    textAlign: "left"
+  },
+
   chipInputContainer: {
     position: "relative",
     display: "inline-flex",
+    flexFlow: "row wrap",
     width: "100%",
     minHeight: 40,
     cursor: "text",
@@ -66,10 +71,58 @@ export const defaultTheme = {
     "&:focus-within:after": {
       transform: "scaleX(1)"
     }
+  },
+
+  errorChipInputContainer: {
+    "&:before": {
+      content: '""',
+      height: 1,
+      backgroundColor: "#f44336"
+    },
+
+    "&:after": {
+      content: '""',
+      height: 2,
+      backgroundColor: "#f44336",
+      transform: "scaleX(0)",
+      transition: "transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms"
+    }
+  },
+
+  chipContainer: {
+    marginTop: "auto",
+    marginBottom: "auto"
+  },
+
+  chip: {
+    marginTop: 2,
+    marginBottom: 2,
+    marginRight: 2
+  },
+
+  input: {
+    flexGrow: 1,
+    // FIXME Necessary if no label is passed
+    // marginTop: 16,
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap"
+  },
+
+  helperText: {
+    minHeight: "1em",
+    marginTop: 8,
+    lineHeight: "1em",
+    fontSize: "0.75rem",
+    color: "rgba(0, 0, 0, 0.54)"
+  },
+
+  errorMessage: {
+    color: "#f44336"
   }
 };
 
-export const constructCustomTheme = customTheme => {
+export const mergeThemes = (defaultTheme, customTheme) => {
   if (!customTheme) return defaultTheme;
 
   let mergedThemes = {
