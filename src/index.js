@@ -188,9 +188,12 @@ class Autocomplete extends Component {
   onMultiSelectSuggestionSelected = (suggestion, onSuggestionSelected) => {
     const { allowDuplicateSelection } = this.props;
     const { selectedSuggestions } = this.state;
+    const isDuplicateSelection = this.containsSuggestion(
+      selectedSuggestions,
+      suggestion
+    );
     const newSelectedSuggestions =
-      !allowDuplicateSelection &&
-      this.containsSuggestion(selectedSuggestions, suggestion)
+      !allowDuplicateSelection && isDuplicateSelection
         ? selectedSuggestions
         : [...selectedSuggestions, suggestion];
 
@@ -200,8 +203,11 @@ class Autocomplete extends Component {
       selectedSuggestions: newSelectedSuggestions
     });
 
-    onSuggestionSelected &&
+    if (onSuggestionSelected) {
+      if (!allowDuplicateSelection && isDuplicateSelection) return;
+
       onSuggestionSelected(suggestion, newSelectedSuggestions);
+    }
   };
 
   onSingleSelectSuggestionSelected = (suggestion, onSuggestionSelected) => {
@@ -334,11 +340,11 @@ class Autocomplete extends Component {
     const inputMessage = this.constructInputMessage(classes);
 
     return (
-      <div className={classes.inputContainer}>
-        <div
-          className={inputMessage.classNames.container}
-          onFocus={this.onInputContainerFocus}
-        >
+      <div
+        className={classes.inputContainer}
+        onFocus={this.onInputContainerFocus}
+      >
+        <div className={inputMessage.classNames.container}>
           {multiSelect && selectedSuggestions.map(this.renderChips)}
           <TextField
             inputRef={this.input}
