@@ -274,21 +274,17 @@ class Autocomplete extends Component {
     this.focusOnInput();
   };
 
-  onChipDelete = label => event => {
-    const { onSuggestionDeleted, ignoreCase } = this.props;
+  onChipDelete = suggestionToDelete => event => {
+    const { onSuggestionDeleted } = this.props;
     const { selectedSuggestions } = this.state;
-    const deletedSuggestion = Autocomplete.getExactMatchSuggestion(
-      selectedSuggestions,
-      label,
-      ignoreCase
-    );
+    const { key } = suggestionToDelete;
     const newSelectedSuggestions = selectedSuggestions.filter(
-      s => s.label !== label
+      s => s.key !== key
     );
 
     this.setState({ selectedSuggestions: newSelectedSuggestions });
     onSuggestionDeleted &&
-      onSuggestionDeleted(deletedSuggestion, newSelectedSuggestions);
+      onSuggestionDeleted(suggestionToDelete, newSelectedSuggestions);
   };
 
   renderHighlights = (part, index) => {
@@ -328,7 +324,7 @@ class Autocomplete extends Component {
           className={classes.chip}
           key={index}
           label={label}
-          onDelete={this.onChipDelete(label)}
+          onDelete={this.onChipDelete(selectedSuggestion)}
         />
       </div>
     );
