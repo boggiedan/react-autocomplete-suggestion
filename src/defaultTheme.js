@@ -122,9 +122,7 @@ export const defaultTheme = {
   }
 };
 
-export const mergeThemes = (defaultTheme, customTheme) => {
-  if (!customTheme) return defaultTheme;
-
+export const mergeThemes = (defaultTheme, customTheme = {}) => {
   let mergedThemes = {
     ...defaultTheme,
     ...customTheme
